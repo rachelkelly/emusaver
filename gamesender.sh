@@ -7,8 +7,8 @@
 computerdate=$(date +%s)
 humandate=$(date %F)
 savebundle="ff5$humandate$epoch.tar.gz"
+location="/mnt/c/snes stuff/EMUPROJ/"
 
-#tar -czvf $savebundle -X exclude.txt "/mnt/c/snes stuff/EMUPROJ/"
-tar -czvf $savebundle "/mnt/c/snes stuff/EMUPROJ/"
+tar -czvf $savebundle $location
 tar tvf $savebundle
 #aws s3 cp 
