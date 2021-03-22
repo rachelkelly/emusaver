@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# a tool to send emulation save kits (a term I am making up) up to AWS S3S
+# a tool to send emulation save kits (a term I am making up) up to AWS S3
 # if using this just for FF5, the only var needing definition is the complete linux-style 
 # path to the windows location.  /mnt/c/snes stuff/EMUPROJ/ is just mine.
 
 # usage: ./gamesender.sh send
 #        ./gamesender.sh get
-
-# get location of saves, bundle up entirety of save file
 
 computerdate=$(date +%s)
 humandate=$(date +%F)
