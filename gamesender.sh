@@ -4,7 +4,9 @@
 # if using this just for FF5, the only var needing definition is the complete linux-style 
 # path to the windows location.  /mnt/c/snesstuff/EMUPROJ/ is just mine.
 
-# usage: ./gamesender.sh send
+# usage: workon emusave
+#        ./gamesender.sh send
+#        OR
 #        ./gamesender.sh get
 
 computerdate=$(date +%s)
