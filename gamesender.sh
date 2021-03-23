@@ -16,9 +16,10 @@ bucket="s3://emusaves"
 
 # tarballs & sends bundle
 send() {
-    tar -czvf $sendbundle $location/current
+    cd $location/current && tar -czvf $sendbundle -X $HOME/emusaver/exclude.txt .
     tar tvf $sendbundle
     aws s3 cp $sendbundle $bucket/
+    cd $HOME
 }
 
 # first, we secure the bundle that might be local
