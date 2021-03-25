@@ -27,14 +27,17 @@ send() {
 # first, we secure the bundle that might be local
 # looks for newest object in bucket based on its timestamp (not the date on the label)
 get() {
-    assurance
+    mkdir -p $location/current
+    if [[ -f $location/current/* ]]; then
+        assurance
+    fi
     newest=$(aws s3 ls $bucket | sort | tail -n 1 | awk '{print $4}')
     aws s3 cp $bucket/$newest $location/current/
     cd $location/current && tar -xzvf $newest
 }
 
 assurance() {
-    mkdir -p $location/{backup,current}
+    mkdir -p $location/backup,current
     mv $location/current/* $location/backup/
     echo "Current batch backed up before sending"
 }
