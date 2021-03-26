@@ -21,11 +21,16 @@ send() {
     cd $location/current && tar -czvf $sendbundle -X $HOME/emusaver/exclude.txt .
     tar tvf $sendbundle
     aws s3 cp $sendbundle $bucket/
+
+    # each user can maintain their own snes9x.conf.  it changes with ~imperceptible things,
+    # so it is safer to take it out of consideration.
+    # in addition to being moved around with send/get, it's also in the .gitignore.
+    cp $location/current/snes9x.conf $HOME/emusaver/
     cd $HOME
 }
 
 # first, we secure the bundle that might be local
-# looks for newest object in bucket based on its timestamp (not the date on the label)
+# looks for newest object in bucket based on its S3-applied timestamp - NOT the date on the label
 get() {
     mkdir -p $location/current
     if [[ -f $location/current/* ]]; then
@@ -34,6 +39,9 @@ get() {
     newest=$(aws s3 ls $bucket | sort | tail -n 1 | awk '{print $4}')
     aws s3 cp $bucket/$newest $location/current/
     cd $location/current && tar -xzvf $newest
+
+    # after the tarball is resettled, we place the user's specific snes9x.conf for their use
+    cp $HOME/emusaver/snes9x.conf $location/current/
 }
 
 assurance() {
