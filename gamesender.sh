@@ -18,7 +18,7 @@ bucket="s3://emusaves"
 
 # tarballs & sends bundle
 send() {
-    if [[ -f $location/current ]]; then
+    if [[ -e $location/current ]]; then
         cd $location/current && tar -czvf $sendbundle -X $HOME/emusaver/exclude.txt .
     else cd $location && tar -czvf $sendbundle -X $HOME/emusaver/exclude.txt .
         fi
@@ -35,12 +35,14 @@ send() {
 # first, we secure the bundle that might be local
 # looks for newest object in bucket based on its S3-applied timestamp - NOT the date on the label
 get() {
-    mkdir -p $location/current
-    if [[ -f $location/current/* ]]; then
+    if [[ -e $location/current ]]; then
         assurance
+        rm -rf $location/current/
     fi
+
+    mkdir -p $location/current
     newest=$(aws s3 ls $bucket | sort | tail -n 1 | awk '{print $4}')
-    aws s3 cp $bucket/$newest $location/current/
+    aws s3 cp $bucket/$newest $location/current
     cd $location/current && tar -xzvf $newest
 
     # after the tarball is resettled, we place the user's specific snes9x.conf for their use
@@ -48,9 +50,13 @@ get() {
 }
 
 assurance() {
-    mkdir -p $location/backup,current
+    if [[ -e $location/backup ]]; then
+        rm -rf $location/backup
+    fi
+    mkdir -p $location/current
+    mkdir -p $location/backup
     mv $location/current/* $location/backup/
-    echo "Current batch backed up before sending"
+    echo "Current batch backed up getting new"
 }
 
 # janky argsv, just for you 😘

@@ -1,2 +1,2 @@
 *.tar.gz
-snes9x.conf
+/mnt/c/snesstuff/EMUPROJ/current/snes9x.conf
