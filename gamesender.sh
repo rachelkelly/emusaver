@@ -59,11 +59,18 @@ assurance() {
     echo "Current batch backed up getting new"
 }
 
+last_one() {
+    latest=$location/current/*.tar.gz
+    echo $latest
+}
+
 # janky argsv, just for you 😘
 if [[ $1 == "send" ]]; then
     send
 elif [[ $1 == "get" ]]; then
     get
+elif [[ $1 == "latest" ]]; then
+    last_one
 fi
 
 
