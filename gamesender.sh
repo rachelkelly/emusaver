@@ -18,6 +18,8 @@ bucket="s3://emusaves"
 
 # tarballs & sends bundle
 send() {
+    echo $(date)
+    echo "Sending data to S3 ..." && sleep 2
     if [[ -e $location/current ]]; then
         cd $location/current && tar -czvf $sendbundle -X $HOME/emusaver/exclude.txt .
     else cd $location && tar -czvf $sendbundle -X $HOME/emusaver/exclude.txt .
@@ -35,6 +37,8 @@ send() {
 # first, we secure the bundle that might be local
 # looks for newest object in bucket based on its S3-applied timestamp - NOT the date on the label
 get() {
+    echo $(date)
+    echo "Receiving data from S3 ..." && sleep 2
     if [[ -e $location/current ]]; then
         assurance
         rm -rf $location/current/
